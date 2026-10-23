@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>HyperSheet</title><meta name="color-scheme" content="light dark">
+<title>MATRIX AI STUDIO</title><meta name="color-scheme" content="light dark">
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#fff;--fg:#1f2937;--grid:#e1e4e8;--hd:#f3f4f6;--hdfg:#4b5563;--bar:#107c41;--sel:rgba(16,124,65,.13);--bd:#d1d5db}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16181d;--fg:#e5e7eb;--grid:#2c313a;--hd:#22262d;--hdfg:#9ca3af;--bar:#1f9d5c;--sel:rgba(31,157,92,.22);--bd:#3a404a}}
@@ -28,15 +28,41 @@ canvas{position:absolute;left:0;top:0;cursor:cell}
 #cm button{border:0;background:none;text-align:left;padding:6px 10px;border-radius:4px}#cm button:hover{background:var(--sel)}
 #ac{position:fixed;z-index:60;display:none;min-width:280px;max-width:400px;background:var(--bg);border:1px solid var(--bd);border-radius:6px;box-shadow:0 6px 20px rgba(0,0,0,.25);font-size:12px;overflow:hidden}
 #ac div{padding:4px 10px;cursor:pointer}#ac .h{background:var(--hd);color:var(--hdfg);font-family:ui-monospace,monospace;cursor:default}#ac .on{background:var(--sel)}#ac small{color:var(--hdfg);margin-left:8px}
-</style></head><body>
-<div class="top"><b>HyperSheet · 1 crore rows × 16,384 cols</b>
-<button id="bo">Open CSV</button><button id="bs">Save CSV</button><button id="bu">Undo</button><button id="br">Redo</button><button id="ba">Σ AutoSum</button>
-<input type="file" id="fi" accept=".csv,text/csv" hidden></div>
+#md{position:fixed;z-index:70;display:none;left:50%;top:70px;transform:translateX(-50%);background:var(--bg);border:1px solid var(--bd);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.3);padding:12px;min-width:320px;max-width:94vw}
+#md input{display:block;width:100%;margin:6px 0}#md button{margin:4px 4px 0 0}
+.rb{display:flex;flex-wrap:wrap;gap:4px;align-items:center;padding:4px 8px;background:var(--hd);border-bottom:1px solid var(--bd)}
+.rb i{width:1px;height:20px;background:var(--bd);margin:0 4px}
+.rb label{display:flex;align-items:center;gap:3px;border:1px solid var(--bd);border-radius:4px;padding:1px 5px;background:var(--bg);cursor:pointer}
+.rb input[type=color]{width:20px;height:18px;padding:0;border:0;background:none;cursor:pointer}
+
+#gate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:16px}
+body.locked>*:not(#gate){display:none!important}
+#gc{width:360px;max-width:100%;border:1px solid var(--bd);border-top:5px solid var(--bar);border-radius:8px;padding:28px 24px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.2);background:var(--bg)}
+#gc h2{margin:6px 0 4px;font-size:18px}#gc .gl{font-size:30px}
+#gc p{margin:0 0 16px;color:var(--hdfg);min-height:16px}
+#gc input{width:100%;padding:9px 12px;font-size:14px;margin-bottom:10px}
+#gc button{width:100%;padding:9px;font-size:14px;margin-bottom:8px}
+#gc button.pri{background:var(--bar);color:#fff;border:0;font-weight:600}
+#gc button:disabled{opacity:.6;cursor:wait}
+.top .pill{background:rgba(255,255,255,.18);padding:2px 8px;border-radius:10px;font-size:12px}
+</style><script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script></head><body class="locked">
+<div id="gate"><div id="gc"><form id="gf" autocomplete="off"><div class="gl">🔒</div><h2>MATRIX AI STUDIO</h2><p id="gm">Enter password to continue</p><input id="gp" type="password" placeholder="Password" autofocus><button class="pri" id="gb" type="submit">Unlock</button></form><form id="wf" autocomplete="off" hidden><div class="gl">📁</div><h2>Choose a workspace</h2><p id="wm">Same name = same live sheet for everyone. Different name = a fresh sheet.</p><input id="wp" placeholder="e.g. kuldeep-thakur-aabb12" spellcheck="false" autocapitalize="off"><button class="pri" id="wb" type="submit">Open workspace</button><button id="wr" type="button">🎲 Make a random private name</button></form></div></div>
+<div class="top"><b>MATRIX AI STUDIO</b><span style="opacity:.85">1 crore rows × 16,384 columns</span></div>
+<div class="rb">
+<button id="bo" title="Open CSV or Excel file">📂 Open</button><button id="bx" title="Save as Excel (Ctrl+S)">💾 .xlsx</button><button id="bs" title="Save as CSV">💾 .csv</button><i></i>
+<button id="bcp" title="Copy (Ctrl+C)">Copy</button><button id="bct" title="Cut (Ctrl+X)">Cut</button><button id="bpa" title="Paste (Ctrl+V)">Paste</button><i></i>
+<button id="bu" title="Undo (Ctrl+Z)">↶</button><button id="br" title="Redo (Ctrl+Y)">↷</button><i></i>
+<button id="fB" title="Bold (Ctrl+B)"><b>B</b></button><button id="fI" title="Italic (Ctrl+I)"><i style="all:unset;font-style:italic">I</i></button><button id="fU" title="Underline (Ctrl+U)"><u>U</u></button>
+<label title="Text colour">A<input type="color" id="fC" value="#d00000"></label><label title="Fill colour">▨<input type="color" id="fF" value="#ffff00"></label><i></i>
+<button id="aL" title="Align left">⇤</button><button id="aC" title="Centre">↔</button><button id="aR" title="Align right">⇥</button><button id="bB" title="Toggle cell borders">⊞</button><i></i>
+<button id="nC" title="Currency ₹">₹</button><button id="nP" title="Percent">%</button><button id="nN" title="Thousands separator">,</button><button id="nI" title="More decimals">.0→</button><button id="nD" title="Fewer decimals">←.0</button><i></i>
+<button id="ba" title="AutoSum">Σ</button><button id="bsA" title="Sort A to Z">A→Z</button><button id="bsD" title="Sort Z to A">Z→A</button><button id="bfd" title="Find &amp; Replace (Ctrl+F)">🔍 Find</button><button id="bfl" title="Filter rows by this column">⏷ Filter</button><button id="bch" title="Chart from selection">📊 Chart</button>
+<input type="file" id="fi" accept=".csv,.xlsx,.xls,text/csv" hidden></div>
 <div class="fx"><input id="nb" value="A1" spellcheck="false"><i style="color:var(--bar);font-weight:700">fx</i><input id="fb" spellcheck="false" autocomplete="off" placeholder="Value or formula, e.g. =VLOOKUP(B6,A2:F4,2,FALSE)"></div>
 <div class="fx"><b style="color:var(--bar)">✨ AI</b><input id="ai" style="flex:1;min-width:0" placeholder="Ask AI: generate 10 rows of sales data, add a total column, …"><input id="ak" type="password" style="width:190px" placeholder="Gemini API key" autocomplete="off" title="Stored only in this browser"><button id="ar">Run</button></div>
 <div id="grid" tabindex="0"><canvas id="cv"></canvas><input id="ed"><div id="vb"><i id="vt"></i></div><div id="hb"><i id="ht"></i></div></div>
-<div class="ft"><span id="tabs"></span><span id="st">Ready</span></div><div id="cm"></div><div id="ac"></div>
-<script>
+<div class="ft"><span id="tabs"></span><span id="st">Ready</span></div><div id="cm"></div><div id="md"></div><div id="ac"></div>
+<script type="text/plain" id="app-src">
 const NR=1e7,NC=16384,CW=100,RH=22,HH=24,RW=56;
 const $=i=>document.getElementById(i),cv=$('cv'),x=cv.getContext('2d'),ed=$('ed'),fb=$('fb'),nb=$('nb'),gridEl=$('grid');
 class Err{constructor(m){this.m=m}}
@@ -44,23 +70,23 @@ const E=m=>{throw new Err(m)},clamp=(v,l,h)=>Math.max(l,Math.min(h,v)),K=(r,c)=>
 const ER=/^#[A-Z\/0!?]+$/;
 const cn=c=>{let s='';c++;while(c>0){const m=(c-1)%26;s=String.fromCharCode(65+m)+s;c=(c-m-1)/26}return s};
 const cl=s=>{let n=0;for(const ch of s)n=n*26+ch.charCodeAt(0)-64;return n-1};
-const ns=()=>({n:'Sheet'+(sheets.length+1),d:new Map(),cv:new Map(),rm:new Map(),cm:new Map(),mr:0,mc:0});
-let sheets=[],S,undo=[],redo=[],LOG=null,sx=0,sy=0,A=[0,0],Z=[0,0],mode=null,fillT=null,editing=false,W=800,H=500,clip=null,mp=[0,0],hp=null,ctrlFill=false,q=0,rsz=null;
-sheets.push(ns());S=sheets[0];
+const ns=()=>({id:'s'+Math.random().toString(36).slice(2,8),n:(()=>{let i=1;while(sheets.some(z=>z.n==='Sheet'+i))i++;return'Sheet'+i})(),d:new Map(),cv:new Map(),rm:new Map(),cm:new Map(),st:new Map(),mr:0,mc:0});
+let sheets=[],S,undo=[],redo=[],LOG=null,sx=0,sy=0,A=[0,0],Z=[0,0],mode=null,fillT=null,editing=false,W=800,H=500,clip=null,mp=[0,0],hp=null,ctrlFill=false,q=0,rsz=null,marq=null,ptA=null,ptPos=0;
+sheets.push(ns());sheets[0].id='main';S=sheets[0];
 const raw=(r,c)=>S.d.get(K(r,c))??'';
 const rh=r=>S.rm.get(r)??RH,cw=c=>S.cm.get(c)??CW;
 const rowY=r=>{let y=r*RH;for(const[i,h]of S.rm)if(i<r)y+=h-RH;return y},colX=c=>{let v=c*CW;for(const[i,w]of S.cm)if(i<c)v+=w-CW;return v};
 const px=c=>RW+colX(c)-sx,py=r=>HH+rowY(r)-sy;
 function idxAt(y,D,M,mx){let ex=0;for(const[i,h]of[...M].sort((a,b)=>a[0]-b[0])){const t=i*D+ex;if(y<t)break;if(y<t+h)return i;ex+=h-D}return clamp(Math.floor((y-ex)/D),0,mx)}
 const TH=()=>NR*RH+[...S.rm.values()].reduce((t,h)=>t+h-RH,0),TW=()=>NC*CW+[...S.cm.values()].reduce((t,w)=>t+w-CW,0);
-function restore(t,n){t.d=new Map(n.d);t.rm=new Map(n.rm);t.cm=new Map(n.cm);t.mr=n.mr;t.mc=n.mc;t.cv=new Map()}
+function restore(t,n){t.d=new Map(n.d);t.rm=new Map(n.rm);t.cm=new Map(n.cm);t.st=new Map(n.st);t.mr=n.mr;t.mc=n.mc;t.cv=new Map()}
 function setRaw(s,k,v){v===''?s.d.delete(k):(s.d.set(k,v),s.mr=Math.max(s.mr,Math.floor(k/NC)),s.mc=Math.max(s.mc,k%NC));s.cv.clear()}
 function put(r,c,v){const k=K(r,c),o=S.d.get(k)??'';if(o===v)return;setRaw(S,k,v);if(LOG)LOG.push([S,k,o,v])}
 function tx(f){LOG=[];f();if(LOG.length){undo.push(LOG);redo.length=0}LOG=null;upd()}
-function doUndo(){const b=undo.pop();if(!b)return;for(let i=b.length-1;i>=0;i--){const e=b[i];e[0]==='SNAP'?restore(e[1],e[2]):setRaw(e[0],e[1],e[2])}redo.push(b);upd()}
-function doRedo(){const b=redo.pop();if(!b)return;for(const e of b)e[0]==='SNAP'?restore(e[1],e[3]):setRaw(e[0],e[1],e[3]);undo.push(b);upd()}
+function doUndo(){const b=undo.pop();if(!b)return;for(let i=b.length-1;i>=0;i--){const e=b[i];e[0]==='SNAP'?restore(e[1],e[2]):e[0]==='ST'?setSt(e[1],e[2],e[3]):setRaw(e[0],e[1],e[2])}redo.push(b);upd()}
+function doRedo(){const b=redo.pop();if(!b)return;for(const e of b)e[0]==='SNAP'?restore(e[1],e[3]):e[0]==='ST'?setSt(e[1],e[2],e[4]):setRaw(e[0],e[1],e[3]);undo.push(b);upd()}
 /* ---------- formula engine ---------- */
-const TK=/\s*(?:(\d+\.?\d*|\.\d+)|"((?:[^"]|"")*)"|(\$?[A-Z]{1,3}\$?\d+(?::\$?[A-Z]{1,3}\$?\d+)?|[A-Z]{1,3}:[A-Z]{1,3})(?![\w(])|([A-Z][A-Z0-9.]*)(?=\()|(TRUE|FALSE)|(<=|>=|<>|[-+*\/^&=<>(),%]))/iy;
+const TK=/\s*(?:(\d+\.?\d*|\.\d+)|"((?:[^"]|"")*)"|((?:(?:'[^']+'|[A-Za-z_][\w.]*)!)?(?:\$?[A-Z]{1,3}\$?\d+(?::\$?[A-Z]{1,3}\$?\d+)?|[A-Z]{1,3}:[A-Z]{1,3}))(?![\w(])|([A-Z][A-Z0-9.]*)(?=\()|(TRUE|FALSE)|(<=|>=|<>|[-+*\/^&=<>(),%]))/iy;
 const cell=s=>{const m=/([A-Z]+)(\d+)/.exec(s);return[+m[2]-1,cl(m[1])]};
 function pr(s){s=s.replace(/\$/g,'');if(!s.includes(':'))return cell(s);const[a,b]=s.split(':');if(/\d/.test(a)){const p=cell(a),r=cell(b);return[Math.min(p[0],r[0]),Math.min(p[1],r[1]),Math.max(p[0],r[0]),Math.max(p[1],r[1])]}return[0,cl(a),NR-1,cl(b)]}
 function num(v){if(typeof v==='number')return v;if(v&&v.g)E('#VALUE!');if(v===''||v===false)return 0;if(v===true)return 1;if(typeof v==='string'){if(ER.test(v))E(v);if(v.trim()!==''&&!isNaN(+v))return+v}E('#VALUE!')}
@@ -70,6 +96,10 @@ function val(r,c){const k=K(r,c);if(S.cv.has(k))return S.cv.get(k);const t=S.d.g
  if(t===undefined)v='';else if(t[0]==='='){S.cv.set(k,'#CYCLE!');try{v=calc(t.slice(1));if(v&&v.g)v='#VALUE!'}catch(e){v=e instanceof Err?e.m:'#ERROR!'}}else v=t.trim()!==''&&!isNaN(+t)?+t:t;
  S.cv.set(k,v);return v}
 const disp=(r,c)=>{const v=val(r,c);return typeof v==='number'?fmt(v):v===true?'TRUE':v===false?'FALSE':v};
+const nfmt=(v,st)=>{const d=st.nd==null?2:st.nd,o={minimumFractionDigits:d,maximumFractionDigits:d};return st.nt==='c'?'₹'+v.toLocaleString('en-IN',o):st.nt==='p'?(v*100).toFixed(d)+'%':st.nt==='n'?v.toLocaleString('en-IN',o):v.toFixed(d)};
+const shown=(r,c)=>{const v=val(r,c),st=S.st.get(K(r,c));return st&&st.nt&&typeof v==='number'?nfmt(v,st):disp(r,c)};
+const setSt=(t,k,v)=>{v?t.st.set(k,v):t.st.delete(k)};
+function putSt(r,c,n){const k=K(r,c),o=S.st.get(k)||null;if(JSON.stringify(o)===JSON.stringify(n))return;setSt(S,k,n);if(LOG)LOG.push(['ST',S,k,o,n])}
 function flat(g){const o=[];for(let r=g[0];r<=Math.min(g[2],S.mr);r++)for(let c=g[1];c<=Math.min(g[3],S.mc);c++)o.push(val(r,c));return o}
 function calc(src){const T=[],L=src.trimEnd().length;let p=0,m;while(p<L){TK.lastIndex=p;m=TK.exec(src);if(!m)E('#NAME?');
  if(m[1]!==undefined)T.push(['n',+m[1]]);else if(m[2]!==undefined)T.push(['s',m[2].replace(/""/g,'"')]);else if(m[3])T.push(['r',m[3].toUpperCase()]);else if(m[4])T.push(['f',m[4].toUpperCase()]);else if(m[5])T.push(['b',m[5].toUpperCase()==='TRUE']);else T.push(['o',m[6]]);p=TK.lastIndex}
@@ -81,7 +111,7 @@ function run(T){if(!T.length)return'';let i=0;const o=(...s)=>T[i]&&T[i][0]==='o
  const prim=()=>{const t=T[i++];if(!t)E('#ERROR!');const k=t[0],v=t[1];
   if(k==='n'||k==='s'||k==='b')return v;
   if(k==='o'&&v==='('){const r=cmp();if(!o(')'))E('#ERROR!');i++;return r}
-  if(k==='r'){const g=pr(v);return g.length===2?val(g[0],g[1]):{g}}
+  if(k==='r'){const bi=v.lastIndexOf('!');let sh=null,rf=v;if(bi>=0){sh=v.slice(0,bi).replace(/^'|'$/g,'');rf=v.slice(bi+1)}const g=pr(rf);if(g.length===2)return sh?withSheet(sh,()=>val(g[0],g[1])):val(g[0],g[1]);return sh?{g,sh}:{g}}
   if(k==='f'){if(!o('('))E('#NAME?');let d=0,j=i,a=[],s=i+1;for(;j<T.length;j++){const u=T[j];if(u[0]==='o'){if(u[1]==='(')d++;else if(u[1]===')'){d--;if(!d)break}else if(u[1]===','&&d===1){a.push(T.slice(s,j));s=j+1}}}
    if(j>=T.length)E('#ERROR!');a.push(T.slice(s,j));i=j+1;return call(v,a)}
   E('#ERROR!')};
@@ -100,7 +130,9 @@ function find(k,len,at,exact,type){let hit=-1;for(let i=0;i<len;i++){const y=at(
 function call(f,a){
  if(f==='IF'){const c=run(a[0]);return(c===true||(typeof c==='number'&&c!==0))?run(a[1]):a[2]?run(a[2]):false}
  if(f==='IFERROR'){try{const v=run(a[0]);return typeof v==='string'&&ER.test(v)?run(a[1]):v}catch(e){if(e instanceof Err)return run(a[1]);throw e}}
- const v=a.map(run),n=()=>v.flatMap(z=>z&&z.g?flat(z.g).filter(y=>typeof y==='number'):[num(z)]);
+ const v=a.map(run),ws=v.find(z=>z&&z.sh);return ws?withSheet(ws.sh,()=>body(f,v)):body(f,v)}
+function withSheet(nm,fn){const t=sheets.find(z=>z.n.toLowerCase()===nm.toLowerCase());if(!t)E('#REF!');const p=S;S=t;try{return fn()}finally{S=p}}
+function body(f,v){const n=()=>v.flatMap(z=>z&&z.g?flat(z.g).filter(y=>typeof y==='number'):[num(z)]);
  switch(f){
  case'SUM':return n().reduce((s,y)=>s+y,0);
  case'AVERAGE':{const t=n();if(!t.length)E('#DIV/0!');return t.reduce((s,y)=>s+y,0)/t.length}
@@ -138,7 +170,7 @@ function call(f,a){
 const rect=()=>[Math.min(A[0],Z[0]),Math.min(A[1],Z[1]),Math.max(A[0],Z[0]),Math.max(A[1],Z[1])];
 function each(g,fn){if((g[2]-g[0]+1)*(g[3]-g[1]+1)<=20000){for(let r=g[0];r<=g[2];r++)for(let c=g[1];c<=g[3];c++)if(S.d.has(K(r,c)))fn(r,c)}
  else for(const k of S.d.keys()){const r=Math.floor(k/NC),c=k%NC;if(r>=g[0]&&r<=g[2]&&c>=g[1]&&c<=g[3])fn(r,c)}}
-function upd(){nb.value!==undefined&&document.activeElement!==nb&&(nb.value=cn(A[1])+(A[0]+1));if(document.activeElement!==fb)fb.value=raw(A[0],A[1]);
+function upd(){persist();nb.value!==undefined&&document.activeElement!==nb&&(nb.value=cn(A[1])+(A[0]+1));if(document.activeElement!==fb)fb.value=raw(A[0],A[1]);
  let n=0,s=0,cnt=0;each(rect(),(r,c)=>{const v=val(r,c);if(v!==''){cnt++;if(typeof v==='number'){n++;s+=v}}});
  $('st').textContent=cnt>1?`Count ${cnt} · Sum ${fmt(s)} · Avg ${n?fmt(s/n):0}`:'Ready';sched()}
 const msg=t=>{$('st').textContent=t;setTimeout(upd,3000)};
@@ -149,7 +181,7 @@ function jump(r,c,dr,dc){const has=(a,b)=>S.d.has(K(a,b)),lim=(a,b)=>a>=0&&a<NR&
  if(has(r,c)&&has(a,b)){while(lim(a+dr,b+dc)&&has(a+dr,b+dc)){a+=dr;b+=dc}return[a,b]}
  while(lim(a,b)&&!has(a,b)){a+=dr;b+=dc}return lim(a,b)?[a,b]:[clamp(a-dr,0,NR-1),clamp(b-dc,0,NC-1)]}
 /* ---------- drawing ---------- */
-function sched(){if(!q){q=1;requestAnimationFrame(()=>{q=0;draw()})}}
+function sched(){if(window.__sync)window.__sync.touch();if(!q){q=1;requestAnimationFrame(()=>{q=0;draw()})}}
 function draw(){const d=devicePixelRatio||1;if(cv.width!==Math.round(W*d)||cv.height!==Math.round(H*d)){cv.width=Math.round(W*d);cv.height=Math.round(H*d);cv.style.width=W+'px';cv.style.height=H+'px'}
  x.setTransform(d,0,0,d,0,0);const cs=getComputedStyle(document.documentElement),g=n=>cs.getPropertyValue(n).trim();
  const bg=g('--bg'),fg=g('--fg'),gr=g('--grid'),hd=g('--hd'),hf=g('--hdfg'),ac=g('--bar'),sl=g('--sel');
@@ -159,9 +191,10 @@ function draw(){const d=devicePixelRatio||1;if(cv.width!==Math.round(W*d)||cv.he
  for(let c=c0,X=px(c0);c<NC&&X<W;c++){const w=cw(c);ca.push([c,X,w]);X+=w}
  x.strokeStyle=gr;x.lineWidth=1;x.beginPath();for(const[,y,h]of ra){const Y=Math.round(y+h)+.5;x.moveTo(0,Y);x.lineTo(W,Y)}for(const[,X,w]of ca){const V=Math.round(X+w)+.5;x.moveTo(V,0);x.lineTo(V,H)}x.stroke();
  x.font='13px system-ui,sans-serif';x.textBaseline='middle';
- for(const[r,y,h]of ra)for(const[c,X,w]of ca){if(!S.d.has(K(r,c)))continue;const v=val(r,c),t=disp(r,c);if(t==='')continue;
-  x.save();x.beginPath();x.rect(X+1,y,w-2,h);x.clip();x.fillStyle=typeof v==='string'&&ER.test(v)?'#d33':fg;
-  if(typeof v==='number'||typeof v==='boolean'){x.textAlign='right';x.fillText(t,X+w-5,y+h/2)}else{x.textAlign='left';x.fillText(t,X+5,y+h/2)}x.restore()}
+ for(const[r,y,h]of ra)for(const[c,X,w]of ca){const k=K(r,c),st=S.st.get(k);if(st&&st.bg){x.fillStyle=st.bg;x.fillRect(X+1,y+1,w-1,h-1)}if(st&&st.bd&&h>0&&w>0){x.strokeStyle=fg;x.lineWidth=1;x.strokeRect(X+.5,y+.5,w-1,h-1)}if(!S.d.has(k))continue;const v=val(r,c),t=shown(r,c);if(t==='')continue;
+  x.save();x.beginPath();x.rect(X+1,y,w-2,h);x.clip();x.font=(st&&st.i?'italic ':'')+(st&&st.b?'bold ':'')+'13px system-ui,sans-serif';x.fillStyle=typeof v==='string'&&ER.test(v)?'#d33':(st&&st.c)||fg;
+  const al=(st&&st.al)||(typeof v==='number'||typeof v==='boolean'?'right':'left'),tp=al==='right'?X+w-5:al==='center'?X+w/2:X+5;x.textAlign=al;x.fillText(t,tp,y+h/2);
+  if(st&&st.u){const tw=x.measureText(t).width;x.fillRect(al==='right'?tp-tw:al==='center'?tp-tw/2:tp,y+h/2+7,tw,1)}x.restore()}
  const pxr=(a,b,m,e)=>{const X=px(b),Y=py(a),X2=px(e+1),Y2=py(m+1),x1=clamp(X,-5,W+5),x2=clamp(X2,-5,W+5),y1=clamp(Y,-5,H+5),y2=clamp(Y2,-5,H+5);return[x1,y1,x2-x1,y2-y1,X2,Y2]};
  const[a,b,m,e]=rect(),R=pxr(a,b,m,e);x.fillStyle=sl;x.fillRect(R[0],R[1],R[2],R[3]);
  x.textAlign='center';x.font='600 12px system-ui,sans-serif';
@@ -171,6 +204,7 @@ function draw(){const d=devicePixelRatio||1;if(cv.width!==Math.round(W*d)||cv.he
  x.fillStyle=hd;x.fillRect(0,0,RW,HH);x.strokeRect(.5,.5,RW,HH);
  x.save();x.beginPath();x.rect(RW,HH,W-RW,H-HH);x.clip();x.strokeStyle=ac;x.lineWidth=2;x.strokeRect(R[0],R[1],R[2],R[3]);
  if(fillT){const t=fillT,P=pxr(a-(t.dir==='u'?t.n:0),b-(t.dir==='l'?t.n:0),m+(t.dir==='d'?t.n:0),e+(t.dir==='r'?t.n:0));x.setLineDash([4,3]);x.strokeRect(P[0],P[1],P[2],P[3]);x.setLineDash([])}
+ if(marq&&clip&&clip.sheet===S){const P=pxr(marq[0],marq[1],marq[2],marq[3]);x.setLineDash([5,4]);x.strokeStyle=ac;x.lineWidth=1.5;x.strokeRect(P[0],P[1],P[2],P[3]);x.setLineDash([])}
  hp=[R[4],R[5]];x.fillStyle=ac;x.fillRect(hp[0]-3,hp[1]-3,7,7);x.restore();
  const vm=TH()-(H-HH-12),hm=TW()-(W-RW-12),vt=$('vb').clientHeight-28,ht=$('hb').clientWidth-28;
  $('vt').style.top=(vm>0?sy/vm*vt:0)+'px';$('ht').style.left=(hm>0?sx/hm*ht:0)+'px'}
@@ -187,7 +221,12 @@ function clearSel(){tx(()=>each(rect(),(r,c)=>put(r,c,'')))}
 document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;const k=e.key,ct=e.ctrlKey||e.metaKey,sh=e.shiftKey,lk=k.toLowerCase();
  if(ct&&lk==='z'){e.preventDefault();return sh?doRedo():doUndo()}if(ct&&lk==='y'){e.preventDefault();return doRedo()}
  if(ct&&lk==='a'){e.preventDefault();A=[0,0];Z=[NR-1,NC-1];return upd()}
- if(ct&&(lk==='c'||lk==='x'||lk==='v'))return;
+ if(ct&&(lk==='c'||lk==='x')){e.preventDefault();return doCopy(lk==='x')}
+ if(ct&&lk==='v'){pv=false;setTimeout(()=>{if(!pv&&clip)pasteText(clip.text)},120);return}
+ if(ct&&lk==='b'){e.preventDefault();return applySt(null,'b')}if(ct&&lk==='i'){e.preventDefault();return applySt(null,'i')}if(ct&&lk==='u'){e.preventDefault();return applySt(null,'u')}
+ if(ct&&lk==='f'){e.preventDefault();return openFind()}if(ct&&lk==='s'){e.preventDefault();return saveX()}
+ if(ct&&(lk==='d'||lk==='r')){e.preventDefault();return fillDir(lk==='d')}
+ if(k==='Escape'){marq=null;cutRect=null;sched()}
  const D={ArrowUp:[-1,0],ArrowDown:[1,0],ArrowLeft:[0,-1],ArrowRight:[0,1]}[k];
  if(D){e.preventDefault();const bs=sh?Z:A,t=ct?jump(bs[0],bs[1],D[0],D[1]):[bs[0]+D[0],bs[1]+D[1]];return go(t[0],t[1],sh)}
  if(k==='Enter'){e.preventDefault();return go(A[0]+(sh?-1:1),A[1])}if(k==='Tab'){e.preventDefault();return go(A[0],A[1]+(sh?-1:1))}
@@ -196,13 +235,21 @@ document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;con
  if(k==='Home'){e.preventDefault();return ct?go(0,0):go(A[0],0)}if(k==='End'&&ct){e.preventDefault();return go(S.mr,S.mc)}
  if(k.length===1&&!ct&&!e.altKey){e.preventDefault();edit(k)}});
 /* ---------- clipboard ---------- */
-function doCopy(e){if(e.target.tagName==='INPUT')return false;e.preventDefault();const g=rect(),a=g[0],b=g[1],c=Math.max(a,Math.min(g[2],S.mr)),d=Math.max(b,Math.min(g[3],S.mc)),rows=[];
- for(let r=a;r<=c;r++){const row=[];for(let k=b;k<=d;k++)row.push(raw(r,k));rows.push(row.join('\t'))}const t=rows.join('\n');e.clipboardData.setData('text/plain',t);clip={text:t,r:a,c:b};return true}
-document.addEventListener('copy',doCopy);document.addEventListener('cut',e=>{if(doCopy(e))clearSel()});
-document.addEventListener('paste',e=>{if(e.target.tagName==='INPUT')return;e.preventDefault();const t=e.clipboardData.getData('text/plain');if(!t)return;
- const rows=!t.includes('\t')&&t.includes('\n')&&t.includes(',')?parseCSV(t):t.replace(/\r/g,'').replace(/\n$/,'').split('\n').map(l=>l.split('\t'));
- const same=clip&&clip.text===t;tx(()=>rows.forEach((row,i)=>row.forEach((v,j)=>{if(A[0]+i<NR&&A[1]+j<NC)put(A[0]+i,A[1]+j,same?shiftF(v,A[0]-clip.r,A[1]-clip.c):v)})));
- Z=[Math.min(NR-1,A[0]+rows.length-1),Math.min(NC-1,A[1]+Math.max(...rows.map(r=>r.length))-1)];upd()});
+let pv=false,cutRect=null;
+function copyData(cut){const g=rect(),a=g[0],b=g[1],m=Math.max(a,Math.min(g[2],S.mr)),e=Math.max(b,Math.min(g[3],S.mc)),rows=[],sty={};
+ for(let r=a;r<=m;r++){const row=[];for(let c=b;c<=e;c++){row.push(raw(r,c));const z=S.st.get(K(r,c));if(z)sty[(r-a)+','+(c-b)]=z}rows.push(row.join('\t'))}
+ const t=rows.join('\n');clip={text:t,r:a,c:b,sty,sheet:S};cutRect=cut?[a,b,m,e]:null;marq=[a,b,m,e];sched();return t}
+function doCopy(cut){const t=copyData(cut);try{navigator.clipboard&&navigator.clipboard.writeText(t).catch(()=>{})}catch(e){}msg(cut?'Cut — click a cell and paste':'Copied — click a cell and paste')}
+function pasteText(t){if(!t)return;const same=!!clip&&clip.text===t,cut=same&&cutRect&&clip.sheet===S,cr=cutRect,
+ rows=!t.includes('\t')&&t.includes('\n')&&t.includes(',')?parseCSV(t):t.replace(/\r/g,'').replace(/\n$/,'').split('\n').map(l=>l.split('\t')),
+ dr=same&&!cut?A[0]-clip.r:0,dc=same&&!cut?A[1]-clip.c:0;
+ tx(()=>{if(cut)for(let r=cr[0];r<=cr[2];r++)for(let c=cr[1];c<=cr[3];c++){put(r,c,'');putSt(r,c,null)}
+  rows.forEach((row,i)=>row.forEach((v,j)=>{const r=A[0]+i,c=A[1]+j;if(r>=NR||c>=NC)return;put(r,c,same?shiftF(v,dr,dc):v);if(same)putSt(r,c,clip.sty[i+','+j]||null)}))});
+ if(cut){cutRect=null;marq=null}Z=[Math.min(NR-1,A[0]+rows.length-1),Math.min(NC-1,A[1]+rows.reduce((p,r)=>Math.max(p,r.length),0)-1)];upd()}
+const pasteBtn=()=>{const f=()=>clip&&pasteText(clip.text);try{navigator.clipboard.readText().then(t=>t?pasteText(t):f()).catch(f)}catch(e){f()}};
+document.addEventListener('copy',e=>{if(e.target.tagName==='INPUT')return;e.preventDefault();e.clipboardData.setData('text/plain',copyData(false))});
+document.addEventListener('cut',e=>{if(e.target.tagName==='INPUT')return;e.preventDefault();e.clipboardData.setData('text/plain',copyData(true))});
+document.addEventListener('paste',e=>{if(e.target.tagName==='INPUT')return;e.preventDefault();pv=true;pasteText(e.clipboardData.getData('text/plain'))});
 /* ---------- fill handle ---------- */
 const MS=[['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'],['january','february','march','april','may','june','july','august','september','october','november','december'],['mon','tue','wed','thu','fri','sat','sun'],['monday','tuesday','wednesday','thursday','friday','saturday','sunday']];
 function shiftF(t,dr,dc){if(t[0]!=='=')return t;return t.replace(/(?<![A-Za-z0-9."])(\$?)([A-Za-z]{1,3})(\$?)(\d+)(?![\w(])/g,(m,a,c,b,r)=>{const nc=cl(c.toUpperCase())+(a?0:dc),nr=+r-1+(b?0:dr);return nc<0||nr<0?'#REF!':a+cn(nc)+b+(nr+1)})}
@@ -224,7 +271,7 @@ function doFill(){const g=rect(),a=g[0],b=g[1],c=g[2],d=g[3],dir=fillT.dir,vt=di
 const pos=e=>{const b=cv.getBoundingClientRect();return[e.clientX-b.left,e.clientY-b.top]};
 const at=(mx,my)=>[idxAt(my-HH+sy,RH,S.rm,NR-1),idxAt(mx-RW+sx,CW,S.cm,NC-1)];
 cv.addEventListener('mousedown',e=>{if(e.button)return;e.preventDefault();const[mx,my]=pos(e);mp=[mx,my];
- if(editing&&/^=(.*[-+*\/^&(,=<>:])?$/.test(ed.value)&&mx>RW&&my>HH){const[r,c]=at(mx,my);ed.value+=cn(c)+(r+1);ed.focus();fb.value=ed.value;acUpdate(ed);return}
+ if(editing&&/^=(.*[-+*\/^&(,=<>:])?$/.test(ed.value)&&mx>RW&&my>HH){const[r,c]=at(mx,my);ptPos=ed.value.length;ptA=[r,c];mode='pt';ed.value+=cn(c)+(r+1);ed.focus();fb.value=ed.value;acUpdate(ed);return}
  commit();gridEl.focus();
  const eg=edge(mx,my);if(eg){mode='rsz';rsz={t:eg[0],i:eg[1],p:eg[0]==='c'?mx:my,s:eg[0]==='c'?cw(eg[1]):rh(eg[1])};return}
  if(hp&&Math.abs(mx-hp[0])<8&&Math.abs(my-hp[1])<8){mode='fill';ctrlFill=e.ctrlKey||e.metaKey;return}
@@ -233,7 +280,7 @@ cv.addEventListener('mousedown',e=>{if(e.button)return;e.preventDefault();const[
  else if(my<HH){mode='col';if(!e.shiftKey)A=[0,c];Z=[NR-1,c]}
  else if(mx<RW){mode='row';if(!e.shiftKey)A=[r,0];Z=[r,NC-1]}
  else{mode='sel';if(e.shiftKey)Z=[r,c];else{A=[r,c];Z=[r,c]}}upd()});
-function drag(mx,my){if(mode==='rsz'){const t=rsz.t,v=Math.max(t==='c'?30:12,Math.round(rsz.s+(t==='c'?mx:my)-rsz.p)),g=rect(),full=t==='c'?g[0]===0&&g[2]===NR-1&&rsz.i>=g[1]&&rsz.i<=g[3]:g[1]===0&&g[3]===NC-1&&rsz.i>=g[0]&&rsz.i<=g[2];
+function drag(mx,my){if(mode==='pt'){const[r,c]=at(mx,my),rf=z=>cn(z[1])+(z[0]+1);ed.value=ed.value.slice(0,ptPos)+(ptA[0]===r&&ptA[1]===c?rf(ptA):rf(ptA)+':'+rf([r,c]));fb.value=ed.value;ed.focus();acUpdate(ed);return}if(mode==='rsz'){const t=rsz.t,v=Math.max(t==='c'?30:12,Math.round(rsz.s+(t==='c'?mx:my)-rsz.p)),g=rect(),full=t==='c'?g[0]===0&&g[2]===NR-1&&rsz.i>=g[1]&&rsz.i<=g[3]:g[1]===0&&g[3]===NC-1&&rsz.i>=g[0]&&rsz.i<=g[2];
  let lo=rsz.i,hi=rsz.i;if(full){lo=t==='c'?g[1]:g[0];hi=t==='c'?g[3]:g[2];if(hi-lo>20000)lo=hi=rsz.i}const M=t==='c'?S.cm:S.rm,D=t==='c'?CW:RH;for(let k=lo;k<=hi;k++)v===D?M.delete(k):M.set(k,v);sched();return}
  const[r,c]=at(mx,my);if(mode==='sel')Z=[r,c];else if(mode==='col')Z=[NR-1,c];else if(mode==='row')Z=[r,NC-1];else if(mode==='fill')setFill(r,c);upd()}
 window.addEventListener('mousemove',e=>{const p=pos(e);mp=p;if(mode)drag(p[0],p[1]);else{const g=edge(p[0],p[1]);cv.style.cursor=g?(g[0]==='c'?'col-resize':'row-resize'):hp&&Math.abs(p[0]-hp[0])<8&&Math.abs(p[1]-hp[1])<8?'crosshair':'cell'}});
@@ -248,12 +295,12 @@ new ResizeObserver(()=>{W=gridEl.clientWidth;H=gridEl.clientHeight;clampS();sche
 /* ---------- resize, insert/delete, context menu ---------- */
 function edge(mx,my){if(my<HH&&mx>RW){const c=idxAt(mx-RW+sx,CW,S.cm,NC-1);if(Math.abs(px(c+1)-mx)<5)return['c',c];if(c>0&&Math.abs(px(c)-mx)<5)return['c',c-1]}
  if(mx<RW&&my>HH){const r=idxAt(my-HH+sy,RH,S.rm,NR-1);if(Math.abs(py(r+1)-my)<5)return['r',r];if(r>0&&Math.abs(py(r)-my)<5)return['r',r-1]}return null}
-function fit(t,i){if(t==='c'){let w=0;x.font='13px system-ui,sans-serif';for(const k of S.d.keys())if(k%NC===i)w=Math.max(w,x.measureText(disp(Math.floor(k/NC),i)).width+16);w?S.cm.set(i,Math.max(40,Math.ceil(w))):S.cm.delete(i)}else S.rm.delete(i);sched()}
-function struct(ax,at_,n){commit();const snap=()=>({d:new Map(S.d),rm:new Map(S.rm),cm:new Map(S.cm),mr:S.mr,mc:S.mc}),before=snap(),row=ax==='r',M=row?NR:NC,del=n<0,cnt=Math.abs(n);
+function fit(t,i){if(t==='c'){let w=0;x.font='13px system-ui,sans-serif';for(const k of S.d.keys())if(k%NC===i)w=Math.max(w,x.measureText(shown(Math.floor(k/NC),i)).width+16);w?S.cm.set(i,Math.max(40,Math.ceil(w))):S.cm.delete(i)}else S.rm.delete(i);sched()}
+function struct(ax,at_,n){commit();const snap=()=>({d:new Map(S.d),rm:new Map(S.rm),cm:new Map(S.cm),st:new Map(S.st),mr:S.mr,mc:S.mc}),before=snap(),row=ax==='r',M=row?NR:NC,del=n<0,cnt=Math.abs(n);
  const mi=i=>del?(i<at_?i:i<at_+cnt?-1:i-cnt):(i<at_?i:i+cnt);
  const fx=t=>t.replace(/(?<![A-Za-z0-9."])(\$?)([A-Za-z]{1,3})(\$?)(\d+)(?![\w(])/g,(q,a,c,b,r)=>{let ci=cl(c.toUpperCase()),ri=+r-1;const nv=mi(row?ri:ci);if(nv<0)return'#REF!';if(row)ri=nv;else ci=nv;return a+cn(ci)+b+(ri+1)});
  const nd=new Map();let mr=0,mc=0;for(const[k,v]of S.d){let r=Math.floor(k/NC),c=k%NC;const nv=mi(row?r:c);if(nv<0||nv>=M)continue;if(row)r=nv;else c=nv;nd.set(K(r,c),v[0]==='='?fx(v):v);mr=Math.max(mr,r);mc=Math.max(mc,c)}
- S.d=nd;S.mr=mr;S.mc=mc;const z=new Map();for(const[i,h]of row?S.rm:S.cm){const nv=mi(i);if(nv>=0&&nv<M)z.set(nv,h)}if(row)S.rm=z;else S.cm=z;
+ S.d=nd;S.mr=mr;S.mc=mc;{const q2=new Map();for(const[k,v]of S.st){let r=Math.floor(k/NC),c=k%NC;const nv=mi(row?r:c);if(nv<0||nv>=M)continue;if(row)r=nv;else c=nv;q2.set(K(r,c),v)}S.st=q2}const z=new Map();for(const[i,h]of row?S.rm:S.cm){const nv=mi(i);if(nv>=0&&nv<M)z.set(nv,h)}if(row)S.rm=z;else S.cm=z;
  S.cv.clear();undo.push([['SNAP',S,before,snap()]]);redo.length=0;upd()}
 function menu(e,items){const m=$('cm');m.innerHTML='';for(const[t,f]of items){const b=document.createElement('button');b.textContent=t;b.onclick=()=>{m.style.display='none';f()};m.append(b)}
  m.style.display='flex';m.style.left=Math.max(0,Math.min(e.clientX,innerWidth-190))+'px';m.style.top=Math.max(0,Math.min(e.clientY,innerHeight-m.offsetHeight-8))+'px'}
@@ -262,12 +309,14 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')$('cm').style.displa
 cv.addEventListener('contextmenu',e=>{e.preventDefault();commit();gridEl.focus();const[mx,my]=pos(e),[r,c]=at(mx,my);let g=rect();const ins=r>=g[0]&&r<=g[2]&&c>=g[1]&&c<=g[3];
  const ci=my<HH&&mx>RW,ri=mx<RW&&my>HH;
  if(ci){if(!(ins&&g[0]===0&&g[2]===NR-1)){A=[0,c];Z=[NR-1,c]}}else if(ri){if(!(ins&&g[1]===0&&g[3]===NC-1)){A=[r,0];Z=[r,NC-1]}}else if(mx>RW&&my>HH&&!ins){A=[r,c];Z=[r,c]}
- upd();g=rect();const n=g[2]-g[0]+1,k=g[3]-g[1]+1,it=[];
+ upd();g=rect();const n=g[2]-g[0]+1,k=g[3]-g[1]+1,it=[];if(!ci&&!ri)it.push(['Cut',()=>doCopy(true)],['Copy',()=>doCopy(false)],['Paste',pasteBtn]);
  if(!ci)it.push(['Insert row above',()=>struct('r',g[0],n)],['Insert row below',()=>struct('r',g[2]+1,n)]);
  if(!ri)it.push(['Insert column left',()=>struct('c',g[1],k)],['Insert column right',()=>struct('c',g[3]+1,k)]);
  if(!ci)it.push(['Delete row'+(n>1?'s':''),()=>struct('r',g[0],-n)]);
  if(!ri)it.push(['Delete column'+(k>1?'s':''),()=>struct('c',g[1],-k)]);
- it.push(['Clear contents',clearSel]);
+ it.push(['Sort A → Z',()=>sortSel(true)],['Sort Z → A',()=>sortSel(false)],['Filter…',openFilter],['Show all rows',showAll],['Clear contents',clearSel],['Clear formatting',()=>tx(()=>{for(let r=g[0];r<=Math.min(g[2],g[0]+20000);r++)for(let c=g[1];c<=Math.min(g[3],g[1]+500);c++)putSt(r,c,null)})]);
+ if(ci)it.push(['Hide column'+(k>1?'s':''),()=>{for(let z=g[1];z<=Math.min(g[3],g[1]+2000);z++)S.cm.set(z,0);sched()}],['Unhide columns',()=>{for(let z=Math.max(0,g[1]-1);z<=g[3]+1;z++)if(S.cm.get(z)===0)S.cm.delete(z);sched()}]);
+ if(ri)it.push(['Hide row'+(n>1?'s':''),()=>{for(let z=g[0];z<=Math.min(g[2],g[0]+20000);z++)S.rm.set(z,0);sched()}],['Unhide rows',()=>{for(let z=Math.max(0,g[0]-1);z<=g[2]+1;z++)if(S.rm.get(z)===0)S.rm.delete(z);sched()}]);
  if(!ci)it.push(['Reset row height',()=>{if(n>20000)S.rm.clear();else for(let q=g[0];q<=g[2];q++)S.rm.delete(q);sched()}]);
  if(!ri)it.push(['Reset column width',()=>{if(k>20000)S.cm.clear();else for(let q=g[1];q<=g[3];q++)S.cm.delete(q);sched()}]);
  menu(e,it)});
@@ -346,24 +395,319 @@ async function askAI(){const q=$('ai').value.trim();if(!q)return;const btn=$('ar
   msg(out.message||'Done')}
  catch(err){msg('AI error: '+(err.message||err)+(err instanceof TypeError?' (network blocked here, run the file locally)':''))}btn.disabled=false}
 $('ar').onclick=askAI;$('ai').onkeydown=e=>{if(e.key==='Enter')askAI()};
+window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&typeof e.data.hsKey==='string')$('ak').value=e.data.hsKey});
+/* ---------- formatting, sort, fill, find, chart, autosave ---------- */
+function applySt(patch,tk){let[a,b,m,e]=rect();if((m-a+1)*(e-b+1)>200000){m=Math.min(m,S.mr);e=Math.min(e,S.mc)}const cur=S.st.get(K(A[0],A[1]))||{},nv=tk?!cur[tk]:null;
+ tx(()=>{for(let r=a;r<=m;r++)for(let c=b;c<=e;c++){const o=S.st.get(K(r,c)),n={...(o||{}),...(tk?{[tk]:nv}:patch)};for(const z in n)if(n[z]===false||n[z]==null||n[z]==='')delete n[z];putSt(r,c,Object.keys(n).length?n:null)}})}
+const dec=d=>{const cu=S.st.get(K(A[0],A[1]))||{};applySt({nt:cu.nt||'f',nd:clamp((cu.nd==null?2:cu.nd)+d,0,10)})};
+$('fB').onclick=()=>applySt(null,'b');$('fI').onclick=()=>applySt(null,'i');$('fU').onclick=()=>applySt(null,'u');
+$('fC').onchange=e=>applySt({c:e.target.value});$('fF').onchange=e=>applySt({bg:e.target.value});
+$('aL').onclick=()=>applySt({al:'left'});$('aC').onclick=()=>applySt({al:'center'});$('aR').onclick=()=>applySt({al:'right'});
+$('nC').onclick=()=>applySt({nt:'c',nd:2});$('nP').onclick=()=>applySt({nt:'p',nd:2});$('nN').onclick=()=>applySt({nt:'n',nd:2});$('nI').onclick=()=>dec(1);$('nD').onclick=()=>dec(-1);
+$('bcp').onclick=()=>doCopy(false);$('bct').onclick=()=>doCopy(true);$('bpa').onclick=pasteBtn;
+$('bsA').onclick=()=>sortSel(true);$('bsD').onclick=()=>sortSel(false);$('bfd').onclick=openFind;$('bch').onclick=openChart;
+document.querySelector('.rb').addEventListener('click',e=>{if(e.target.closest('button')&&$('md').style.display!=='block')setTimeout(()=>gridEl.focus(),0)});
+function fillDir(down){const g=rect();tx(()=>{if(down){const one=g[0]===g[2]&&g[0]>0,sr=one?g[0]-1:g[0];for(let c=g[1];c<=g[3];c++){const v=raw(sr,c),z=S.st.get(K(sr,c))||null;for(let r=sr+1;r<=Math.min(g[2],sr+20000);r++){put(r,c,shiftF(v,r-sr,0));putSt(r,c,z)}}}
+ else{const one=g[1]===g[3]&&g[1]>0,sc_=one?g[1]-1:g[1];for(let r=g[0];r<=g[2];r++){const v=raw(r,sc_),z=S.st.get(K(r,sc_))||null;for(let c=sc_+1;c<=Math.min(g[3],sc_+500);c++){put(r,c,shiftF(v,0,c-sc_));putSt(r,c,z)}}}})}
+function sortSel(asc){commit();let[a,b,m,e]=rect();const any=(r1,c1,r2,c2)=>{for(let r=Math.max(0,r1);r<=Math.min(r2,S.mr);r++)for(let c=Math.max(0,c1);c<=Math.min(c2,S.mc);c++)if(S.d.has(K(r,c)))return true;return false};
+ if(a===m&&b===e)for(let ch=true;ch;){ch=false;if(any(a-1,b-1,a-1,e+1)){a--;ch=true}if(any(m+1,b-1,m+1,e+1)){m++;ch=true}if(any(a-1,b-1,m+1,b-1)){b--;ch=true}if(any(a-1,e+1,m+1,e+1)){e++;ch=true}}
+ m=Math.min(m,Math.max(S.mr,a));e=Math.min(e,Math.max(S.mc,b));let hd=false;if(m>a){let all=true,nm=false;for(let c=b;c<=e;c++){if(typeof val(a,c)==='number')all=false;if(typeof val(a+1,c)==='number')nm=true}hd=all&&nm}
+ const kc=clamp(A[1],b,e),r0=a+(hd?1:0),list=[];for(let r=r0;r<=m;r++){const cells=[],sty=[];for(let c=b;c<=e;c++){cells.push(raw(r,c));sty.push(S.st.get(K(r,c))||null)}list.push({r,cells,sty,key:val(r,kc)})}
+ const rank=v=>v===''?3:typeof v==='number'?0:typeof v==='boolean'?2:1;
+ list.sort((p,q)=>{const x1=rank(p.key),y1=rank(q.key);if(x1===3||y1===3)return x1===y1?0:x1===3?1:-1;if(x1!==y1)return asc?x1-y1:y1-x1;const d=x1===0?p.key-q.key:String(p.key).localeCompare(String(q.key),undefined,{sensitivity:'base',numeric:true});return asc?d:-d});
+ tx(()=>list.forEach((it,i)=>{const nr=r0+i;for(let j=0;j<it.cells.length;j++){put(nr,b+j,shiftF(it.cells[j],nr-it.r,0));putSt(nr,b+j,it.sty[j])}}));msg(`Sorted ${list.length} rows by column ${cn(kc)}${asc?' A→Z':' Z→A'}`)}
+function modal(html){const m=$('md');m.innerHTML=html;m.style.display='block';return m}
+function closeModal(){$('md').style.display='none';gridEl.focus()}
+const repl=(v,q,w)=>v.replace(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),()=>w);
+function openFind(){modal(`<b>Find &amp; Replace</b><input id="f1" placeholder="Find"><input id="f2" placeholder="Replace with"><div><button id="fn">Find next</button><button id="fr">Replace</button><button id="fa">Replace all</button><button id="fx_">Close</button></div><small id="fm"></small>`);
+ const keys=()=>{const q=$('f1').value.toLowerCase();if(!q)return[];const o=[];for(const[k,v]of S.d)if(String(disp(Math.floor(k/NC),k%NC)).toLowerCase().includes(q)||v.toLowerCase().includes(q))o.push(k);return o.sort((p,t)=>p-t)};
+ $('fn').onclick=()=>{const ks=keys(),cur=K(A[0],A[1]),nx=ks.find(k=>k>cur)??ks[0];if(nx==null)return $('fm').textContent='Not found';go(Math.floor(nx/NC),nx%NC);$('fm').textContent=ks.length+' match(es)'};
+ $('fr').onclick=()=>{const q=$('f1').value,v=S.d.get(K(A[0],A[1]));if(q&&v&&v.toLowerCase().includes(q.toLowerCase()))tx(()=>put(A[0],A[1],repl(v,q,$('f2').value)));$('fn').click()};
+ $('fa').onclick=()=>{const q=$('f1').value;if(!q)return;let n=0;tx(()=>{for(const[k,v]of[...S.d])if(v.toLowerCase().includes(q.toLowerCase())){put(Math.floor(k/NC),k%NC,repl(v,q,$('f2').value));n++}});$('fm').textContent=n+' replaced'};
+ $('fx_').onclick=closeModal;$('f1').onkeydown=ev=>{if(ev.key==='Enter')$('fn').click();if(ev.key==='Escape')closeModal()};$('f1').focus()}
+function openChart(){let[a,b,m,e]=rect();m=Math.min(m,S.mr);e=Math.min(e,S.mc);if(a>m||b>=e)return msg('Select data first: labels in the first column, numbers in the next columns');
+ const hdr=typeof val(a,b+1)==='string',r0=hdr?a+1:a,names=[],series=[],labels=[];for(let c=b+1;c<=e;c++){names.push(hdr?String(disp(a,c)):cn(c));series.push([])}
+ for(let r=r0;r<=Math.min(m,r0+59);r++){labels.push(String(disp(r,b)));for(let c=b+1;c<=e;c++){const v=val(r,c);series[c-b-1].push(typeof v==='number'?v:0)}}
+ const mo=modal(`<b>Chart</b> <button data-t="bar">Bar</button><button data-t="line">Line</button><button data-t="pie">Pie</button><button id="cx">Close</button><br><canvas id="cc" width="600" height="340" style="max-width:100%"></canvas>`);
+ const pal=['#107c41','#2b6cb0','#d69e2e','#c53030','#805ad5','#319795','#dd6b20'],g2=$('cc').getContext('2d'),fg=getComputedStyle(document.documentElement).getPropertyValue('--fg').trim();
+ const dr=t=>{g2.clearRect(0,0,600,340);g2.font='11px system-ui';g2.lineWidth=1.5;const L=50,T=20,Wd=530,Ht=250,n=labels.length;
+  if(t==='pie'){const s=series[0],tot=s.reduce((p,q)=>p+Math.max(0,q),0)||1;let an=-Math.PI/2;g2.textAlign='left';s.forEach((v,i)=>{const w2=Math.max(0,v)/tot*2*Math.PI;g2.fillStyle=pal[i%7];g2.beginPath();g2.moveTo(190,170);g2.arc(190,170,130,an,an+w2);g2.fill();an+=w2;if(i<18){g2.fillRect(350,20+i*16,10,10);g2.fillStyle=fg;g2.fillText(labels[i].slice(0,18)+' ('+(v/tot*100).toFixed(1)+'%)',366,29+i*16)}});return}
+  const all=series.flat(),mx=Math.max(...all,0)||1,mn=Math.min(...all,0),sc=v=>T+Ht-(v-mn)/(mx-mn||1)*Ht;g2.strokeStyle='#8886';
+  for(let i=0;i<=4;i++){const v=mn+(mx-mn)*i/4,y=sc(v);g2.beginPath();g2.moveTo(L,y);g2.lineTo(L+Wd,y);g2.stroke();g2.fillStyle=fg;g2.textAlign='right';g2.fillText(fmt(+v.toFixed(2)),L-4,y+3)}
+  g2.textAlign='center';const sw=Wd/n;labels.forEach((lb,i)=>{if(n<=15||i%Math.ceil(n/15)===0)g2.fillText(lb.slice(0,10),L+sw*(i+.5),T+Ht+14)});
+  series.forEach((s,j)=>{g2.fillStyle=g2.strokeStyle=pal[j%7];if(t==='bar'){const bw=sw*.8/series.length;s.forEach((v,i)=>g2.fillRect(L+sw*i+sw*.1+bw*j,Math.min(sc(v),sc(0)),bw,Math.abs(sc(v)-sc(0))))}else{g2.beginPath();s.forEach((v,i)=>{const X=L+sw*(i+.5),Y=sc(v);i?g2.lineTo(X,Y):g2.moveTo(X,Y)});g2.stroke()}g2.fillText(names[j],L+40+j*90,T+Ht+32)})};
+ mo.querySelectorAll('[data-t]').forEach(bt=>bt.onclick=()=>dr(bt.dataset.t));$('cx').onclick=closeModal;dr('bar')}
+function persist(){if(window.__sync)window.__sync.touch()}
+function buildSheet(id,o){const t=ns();t.id=id;t.n=o.n||t.n;
+ for(const k in o.d||{}){const key=+k.slice(1);t.d.set(key,String(o.d[k]));t.mr=Math.max(t.mr,Math.floor(key/NC));t.mc=Math.max(t.mc,key%NC)}
+ for(const k in o.t||{})try{t.st.set(+k.slice(1),JSON.parse(o.t[k]))}catch(e){}
+ for(const k in o.r||{})t.rm.set(+k.slice(1),+o.r[k]);for(const k in o.c||{})t.cm.set(+k.slice(1),+o.c[k]);return t}
+function loadSaved(){const D=window.__wsData;if(!D||!D.s)return false;
+ const ord=((D.meta&&D.meta.order)||'').split(',').filter(id=>D.s[id]);for(const id in D.s)if(!ord.includes(id))ord.push(id);
+ const L=ord.map(id=>buildSheet(id,D.s[id]));if(!L.length)return false;sheets=L;S=sheets[0];return true}
+/* ---------- filter ---------- */
+const showAll=()=>{for(const[i,h]of[...S.rm])if(h===0)S.rm.delete(i);sched();msg('All rows shown')};
+function openFilter(){const c=A[1];modal(`<b>Filter column ${cn(c)}</b><select id="fo" style="width:100%;margin:6px 0"><option value="=">equals</option><option value="~">contains</option><option value=">">greater than</option><option value="<">less than</option><option value=">=">at least</option><option value="<=">at most</option><option value="<>">not equal to</option></select><input id="fv" placeholder="Value"><div><button id="fok">Apply</button><button id="fsa">Show all rows</button><button id="fcl">Close</button></div><small id="fmm">Row 1 of the table is treated as the header.</small>`);
+ $('fok').onclick=()=>{const op=$('fo').value,fv=$('fv').value,rd=r=>{for(let k=0;k<=S.mc;k++)if(S.d.has(K(r,k)))return true;return false};let t=A[0],b=A[0];while(t>0&&rd(t-1))t--;while(b<S.mr&&rd(b+1))b++;
+  const ok=op==='~'?v=>String(v).toLowerCase().includes(fv.toLowerCase()):mt(op+fv);let n=0;for(let r=t+1;r<=b;r++){if(ok(val(r,c))){S.rm.delete(r);n++}else S.rm.set(r,0)}sched();$('fmm').textContent=`Showing ${n} of ${b-t} rows`};
+ $('fsa').onclick=showAll;$('fcl').onclick=closeModal;$('fv').focus();$('fv').onkeydown=e=>{if(e.key==='Enter')$('fok').click();if(e.key==='Escape')closeModal()}}
+$('bB').onclick=()=>applySt(null,'bd');$('bfl').onclick=openFilter;
 /* ---------- CSV ---------- */
 function parseCSV(t){if(t.charCodeAt(0)===0xFEFF)t=t.slice(1);const R=[];let row=[],f='',qt=false;for(let i=0;i<t.length;i++){const ch=t[i];
  if(qt){if(ch==='"'){if(t[i+1]==='"'){f+='"';i++}else qt=false}else f+=ch}else if(ch==='"')qt=true;else if(ch===','){row.push(f);f=''}
  else if(ch==='\n'||ch==='\r'){if(ch==='\r'&&t[i+1]==='\n')i++;row.push(f);R.push(row);row=[];f=''}else f+=ch}
  if(f!==''||row.length){row.push(f);R.push(row)}return R}
 $('bo').onclick=()=>$('fi').click();
-$('fi').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{const R=parseCSV(String(rd.result));S.d.clear();S.cv.clear();S.mr=S.mc=0;undo=[];redo=[];
- R.forEach((row,r)=>row.forEach((v,c)=>{if(v!==''&&r<NR&&c<NC)setRaw(S,K(r,c),v)}));A=[0,0];Z=[0,0];sx=sy=0;upd();msg(`Loaded ${R.length} rows`)};rd.readAsText(f);e.target.value=''};
-$('bs').onclick=async()=>{let o='\ufeff';for(let r=0;r<=S.mr;r++){const row=[];for(let c=0;c<=S.mc;c++){let v=String(disp(r,c));if(/[",\n\r]/.test(v))v='"'+v.replace(/"/g,'""')+'"';row.push(v)}o+=row.join(',')+'\r\n'}
- try{const dl=window.claude&&await window.claude.use('downloads');if(dl)await dl.save({filename:S.n+'.csv',data:o});else{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([o],{type:'text/csv'}));a.download=S.n+'.csv';document.body.append(a);a.click();a.remove()}msg('Saved '+S.n+'.csv')}catch(err){if(err.code!=='declined')msg('Save failed: '+(err.code||err.message))}};
+function loadCSV(text){const R=parseCSV(text);S.d.clear();S.st.clear();S.rm.clear();S.cm.clear();S.cv.clear();S.mr=S.mc=0;undo=[];redo=[];
+ R.forEach((row,r)=>row.forEach((v,c)=>{if(v!==''&&r<NR&&c<NC)setRaw(S,K(r,c),v)}));A=[0,0];Z=[0,0];sx=sy=0;upd();msg(`Loaded ${R.length} rows`)}
+function loadWB(wb){const ss=wb.SheetNames.map(nm=>{const t=ns();t.n=nm.slice(0,31);const ws=wb.Sheets[nm];
+  if(ws['!ref']){const rg=XLSX.utils.decode_range(ws['!ref']);for(let r=rg.s.r;r<=rg.e.r&&r<NR;r++)for(let c=rg.s.c;c<=rg.e.c&&c<NC;c++){const z=ws[XLSX.utils.encode_cell({r,c})];if(!z)continue;
+   const v=z.f?'='+z.f:z.t==='e'?(z.w||'#ERR'):z.t==='b'?(z.v?'TRUE':'FALSE'):z.t==='d'?(z.w||String(z.v)):z.v==null?'':String(z.v);if(v==='')continue;
+   const k=K(r,c);t.d.set(k,v);t.mr=Math.max(t.mr,r);t.mc=Math.max(t.mc,c);
+   if(z.z&&(z.t==='n'||z.f)){const nt=/%/.test(z.z)?'p':/[₹$€]/.test(z.z)?'c':/#,##/.test(z.z)?'n':/0\.0/.test(z.z)?'f':null;if(nt){const dm=/\.(0+)/.exec(z.z);t.st.set(k,{nt,nd:dm?dm[1].length:0})}}}}
+  (ws['!cols']||[]).forEach((o,i)=>{if(o&&o.wpx)t.cm.set(i,o.wpx);else if(o&&o.wch)t.cm.set(i,Math.round(o.wch*7+5))});return t});
+ if(!ss.length)return;sheets=ss;S=sheets[0];undo=[];redo=[];A=[0,0];Z=[0,0];sx=sy=0;tabs();upd();msg(`Opened ${ss.length} sheet(s)`)}
+$('fi').onchange=e=>{const f=e.target.files[0];if(!f)return;e.target.value='';const rd=new FileReader();
+ if(/\.xlsx?$/i.test(f.name)){if(!window.XLSX)return msg('Excel library could not load (needs internet)');rd.onload=()=>{try{loadWB(XLSX.read(rd.result,{type:'array',cellDates:true}))}catch(err){msg('Could not read file: '+err.message)}};rd.readAsArrayBuffer(f)}
+ else{rd.onload=()=>loadCSV(String(rd.result));rd.readAsText(f)}};
+async function saveFile(name,data,mime){try{const dl=window.claude&&await window.claude.use('downloads');if(dl)await dl.save({filename:name,data});else{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:mime}));a.download=name;document.body.append(a);a.click();a.remove()}msg('Saved '+name)}catch(err){if(err.code!=='declined')msg('Save failed: '+(err.code||err.message))}}
+function saveX(){if(!window.XLSX)return msg('Excel library could not load (needs internet)');commit();const wb=XLSX.utils.book_new(),prev=S,zf=z=>{const d=z.nd?'.'+'0'.repeat(z.nd):'';return z.nt==='c'?'"₹"#,##0'+d:z.nt==='p'?'0'+d+'%':z.nt==='n'?'#,##0'+d:'0'+d};
+ try{for(const t of sheets){S=t;const ws={};let mr=0,mc=0;for(const[k,rw]of t.d){const r=Math.floor(k/NC),c=k%NC,v=val(r,c),cell=typeof v==='number'?{t:'n',v}:typeof v==='boolean'?{t:'b',v}:{t:'s',v:String(v)};
+  if(rw[0]==='='&&rw.length>1)cell.f=rw.slice(1);const z=t.st.get(k);if(z&&z.nt)cell.z=zf(z);ws[XLSX.utils.encode_cell({r,c})]=cell;mr=Math.max(mr,r);mc=Math.max(mc,c)}
+  ws['!ref']=XLSX.utils.encode_range({s:{r:0,c:0},e:{r:mr,c:mc}});if(t.cm.size){const cols=[];for(const[i,w]of t.cm)cols[i]={wpx:w};for(let i=0;i<cols.length;i++)if(!cols[i])cols[i]={};ws['!cols']=cols}
+  XLSX.utils.book_append_sheet(wb,ws,t.n.replace(/[\\\/?*\[\]:]/g,'_').slice(0,31))}}finally{S=prev}
+ saveFile('MATRIX_AI_STUDIO.xlsx',XLSX.write(wb,{bookType:'xlsx',type:'array'}),'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')}
+
+$('bs').onclick=()=>{let o='\ufeff';for(let r=0;r<=S.mr;r++){const row=[];for(let c=0;c<=S.mc;c++){let v=String(shown(r,c));if(/[",\n\r]/.test(v))v='"'+v.replace(/"/g,'""')+'"';row.push(v)}o+=row.join(',')+'\r\n'}saveFile(S.n+'.csv',o,'text/csv')};$('bx').onclick=saveX;
 $('bu').onclick=doUndo;$('br').onclick=doRedo;
 $('ba').onclick=()=>{const r=A[0],c=A[1];if(!r)return;let s=r-1;while(s>0&&typeof val(s-1,c)==='number')s--;if(typeof val(s,c)!=='number')return;tx(()=>put(r,c,`=SUM(${cn(c)}${s+1}:${cn(c)}${r})`))};
 /* ---------- sheets & seed ---------- */
-function tabs(){const t=$('tabs');t.innerHTML='';sheets.forEach(s=>{const b=document.createElement('button');b.textContent=s.n;b.className=s===S?'on':'';b.onclick=()=>{commit();S=s;tabs();upd()};t.append(b)});
+const uniq=nm=>{let v=nm,i=2;while(sheets.some(z=>z.n.toLowerCase()===v.toLowerCase()))v=nm+' '+i++;return v};
+function rename(t,b){const i=document.createElement('input');i.value=t.n;i.style.width='100px';b.replaceWith(i);i.focus();i.select();
+ i.onblur=()=>{const v=i.value.trim().replace(/[\\\/?*\[\]:!']/g,'').slice(0,31);if(v&&!sheets.some(z=>z!==t&&z.n.toLowerCase()===v.toLowerCase()))t.n=v;tabs();persist()};i.onkeydown=e=>{if(e.key==='Enter')i.blur();if(e.key==='Escape'){i.value=t.n;i.blur()}}}
+function tabs(){const t=$('tabs');t.innerHTML='';sheets.forEach(sh=>{const b=document.createElement('button');b.textContent=sh.n;b.className=sh===S?'on':'';
+  b.onclick=()=>{commit();S=sh;tabs();upd()};b.ondblclick=()=>rename(sh,b);
+  b.oncontextmenu=e=>{e.preventDefault();menu(e,[['Rename',()=>rename(sh,b)],['Duplicate',()=>{commit();const c=ns();restore(c,sh);c.n=uniq(sh.n+' copy');sheets.splice(sheets.indexOf(sh)+1,0,c);S=c;tabs();upd()}],...(sheets.length>1?[['Delete sheet',()=>{sheets.splice(sheets.indexOf(sh),1);if(S===sh)S=sheets[0];tabs();upd()}]]:[])])};t.append(b)});
  const p=document.createElement('button');p.textContent='+';p.title='New sheet';p.onclick=()=>{commit();S=ns();sheets.push(S);A=[0,0];Z=[0,0];tabs();upd()};t.append(p)}
-[['ID','Product','Category','Price (₹)','Stock','Value'],[101,'Smart Wi-Fi Meter','Hardware',2499,1200],[102,'Zigbee Gateway','IoT Hub',4500,450],[103,'Voltage Sensor','Hardware',850,3000]].forEach((row,r)=>row.forEach((v,c)=>put(r,c,String(v))));
+if(!loadSaved()){[['ID','Product','Category','Price (₹)','Stock','Value'],[101,'Smart Wi-Fi Meter','Hardware',2499,1200],[102,'Zigbee Gateway','IoT Hub',4500,450],[103,'Voltage Sensor','Hardware',850,3000]].forEach((row,r)=>row.forEach((v,c)=>put(r,c,String(v))));
 for(let r=1;r<=3;r++)put(r,5,`=D${r+1}*E${r+1}`);
 put(5,0,'Look up ID');put(5,1,'102');put(6,0,'Product');put(6,1,'=VLOOKUP(B6,A2:F4,2,FALSE)');put(7,0,'Total value');put(7,1,'=SUM(F2:F4)');
-put(0,7,'Tip: select cells, then drag the green corner to fill. Ctrl+drag makes a series.');
+put(0,7,'Tip: select cells, then drag the green corner to fill. Ctrl+drag makes a series.');}
 S.cv.clear();tabs();upd();gridEl.focus();
-</script></body></html>
+</script>
+<script>
+(()=>{
+/* ====== EDIT THESE TWO LINES ======
+   1) PASSWORD_URL: raw link of password.txt in your GitHub repo
+   2) DB_URL: your Firebase Realtime Database URL (no trailing slash) */
+const PASSWORD_URL='https://raw.githubusercontent.com/arman-mathew/Matrix-ai-Studio/main/password.txt';
+const DB_URL='https://matrix-ai-studio-default-rtdb.asia-southeast1.firebasedatabase.app';
+
+const $=id=>document.getElementById(id);
+const gate=$('gate'),gf=$('gf'),wf=$('wf'),gm=$('gm'),wm=$('wm'),inp=$('gp'),btn=$('gb'),wp=$('wp'),wb=$('wb');
+const say=(el,t,bad)=>{el.textContent=t;el.style.color=bad?'#d33':''};
+const ss={get:k=>{try{return sessionStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{sessionStorage.setItem(k,v)}catch(e){}},del:k=>{try{sessionStorage.removeItem(k)}catch(e){}}};
+
+/* ---------------- password (read from GitHub) ---------------- */
+async function sha256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+async function remotePw(){
+ if(PASSWORD_URL.includes('YOUR_USERNAME'))throw new Error('Password URL is not set up yet (edit PASSWORD_URL in index.html)');
+ const r=await fetch(PASSWORD_URL+'?t='+Date.now(),{cache:'no-store'});
+ if(!r.ok)throw new Error('Could not read the password file ('+r.status+')');
+ const t=(await r.text()).replace(/^\uFEFF/,'').trim();
+ if(!t)throw new Error('Password file is empty');return t}
+async function check(pw){
+ const rp=await remotePw();
+ if(/^sha256:/i.test(rp)){if(!crypto.subtle)throw new Error('Hashing needs https');return(await sha256(pw))===rp.slice(7).trim().toLowerCase()}
+ return pw===rp}
+gf.onsubmit=async e=>{e.preventDefault();const pw=inp.value;if(!pw)return;btn.disabled=true;say(gm,'Checking…');
+ try{if(await check(pw)){ss.set('mx_pw',pw);unlocked()}else{say(gm,'Incorrect password',1);inp.select()}}
+ catch(err){say(gm,err.message,1)}btn.disabled=false};
+const saved=ss.get('mx_pw');
+if(saved){say(gm,'Checking access…');
+ check(saved).then(ok=>{if(ok)unlocked();else{ss.del('mx_pw');say(gm,'Password was changed. Enter the new one.',1)}}).catch(err=>say(gm,err.message,1))}
+
+/* ---------------- workspace chooser ---------------- */
+const norm=s=>String(s||'').toLowerCase().trim().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'').replace(/-{2,}/g,'-').replace(/^-+|-+$/g,'');
+const okName=s=>/^[a-z0-9-]{6,64}$/.test(s);
+let started=false;
+function unlocked(){
+ if(started)return;started=true;gf.hidden=true;wf.hidden=false;
+ let fromHash='';try{fromHash=norm(decodeURIComponent(location.hash.slice(1)))}catch(e){}
+ const pre=fromHash||ss.get('mx_ws')||'';let last='';try{last=localStorage.getItem('mx_last_ws')||''}catch(e){}
+ wp.value=pre||last;
+ if(okName(pre))openWs(pre);else wp.focus()}
+wf.onsubmit=e=>{e.preventDefault();const ws=norm(wp.value);wp.value=ws;
+ if(!okName(ws))return say(wm,'Use at least 6 letters or numbers (a–z, 0–9, hyphen).',1);openWs(ws)};
+$('wr').onclick=()=>{const r=n=>Array.from(crypto.getRandomValues(new Uint8Array(n)),b=>'abcdefghijklmnopqrstuvwxyz0123456789'[b%36]).join('');wp.value='sheet-'+r(4)+'-'+r(4)+'-'+r(4)};
+
+function connect(ws){
+ return new Promise((resolve,reject)=>{
+  const es=new EventSource(DB_URL+'/w/'+ws+'.json');
+  let ready=false,sink=null;const buf=[];
+  const fail=m=>{clearTimeout(tm);try{es.close()}catch(e){}reject(new Error(m))};
+  const tm=setTimeout(()=>fail('Timed out connecting. Check DB_URL and that the database rules are published.'),15000);
+  const route=(type,ev)=>{let m;try{m=JSON.parse(ev.data)}catch(e){return}
+   if(!ready&&type==='put'&&m&&m.path==='/'){ready=true;clearTimeout(tm);
+    resolve({es,data:m.data,attach:fn=>{sink=fn;buf.splice(0).forEach(x=>fn(x[0],x[1]))}});return}
+   if(sink)sink(type,m);else if(ready)buf.push([type,m])};
+  ['put','patch'].forEach(t=>es.addEventListener(t,ev=>route(t,ev)));
+  es.addEventListener('cancel',()=>{if(!ready)fail('Access denied by the database rules. Check the rules you published.');else if(sink)sink('cancel')});
+  es.addEventListener('auth_revoked',()=>{if(!ready)fail('Access denied by the database.')});
+  es.onerror=()=>{if(!ready)fail('Could not connect to the database. Check DB_URL (and region) in index.html.');else if(sink)sink('error')};
+  es.onopen=()=>{if(sink)sink('open')};
+ })}
+
+async function openWs(ws){
+ wb.disabled=true;say(wm,'Opening “'+ws+'”…');
+ try{
+  if(DB_URL.includes('YOUR-PROJECT'))throw new Error('Database URL is not set up yet (edit DB_URL in index.html)');
+  const conn=await connect(ws);begin(ws,conn)}
+ catch(err){say(wm,err.message,1);wb.disabled=false;ss.del('mx_ws')}}
+
+function begin(ws,conn){
+ window.__wsData=conn.data;
+ document.body.classList.remove('locked');gate.remove();
+ const s=document.createElement('script');s.textContent=$('app-src').textContent;document.body.append(s);
+ try{localStorage.setItem('mx_last_ws',ws)}catch(e){}
+ ss.set('mx_ws',ws);
+ try{history.replaceState(null,'',location.pathname+location.search+'#'+ws)}catch(e){}
+ const stEl=buildBar(ws);
+ initSync(ws,conn,stEl)}
+
+function buildBar(ws){
+ const top=document.querySelector('.top');
+ const mk=(t,cls,title,fn)=>{const e=document.createElement(fn?'button':'span');e.textContent=t;if(cls)e.className=cls;if(title)e.title=title;if(fn)e.onclick=fn;top.append(e);return e};
+ mk('📁 '+ws,'pill','Workspace');
+ const st=mk('🟡 Connecting…','pill','Sync status');
+ mk('🔗 Copy link','','Copy a link to this workspace',()=>{const u=location.origin+location.pathname+'#'+ws;
+  (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>msg('Link copied'),()=>prompt('Copy this link:',u))});
+ mk('Switch','','Open a different workspace',()=>{ss.del('mx_ws');history.replaceState(null,'',location.pathname+location.search);location.reload()});
+ mk('🔒 Lock','','Lock this tool',()=>{ss.del('mx_pw');ss.del('mx_ws');history.replaceState(null,'',location.pathname+location.search);location.reload()});
+ return st}
+
+/* ---------------- live sync ---------------- */
+/* Cloud layout under /w/<workspace>:
+   meta/order = "id1,id2"   s/<id>/n = sheet name
+   s/<id>/d/k<cell> = raw cell text   t/k<cell> = style JSON   r/k<row> = height   c/k<col> = width
+   M is our mirror of the cloud; we only push what differs from M and only apply cloud changes that differ from M. */
+function initSync(ws,conn,stEl){
+ let M=(conn.data&&typeof conn.data==='object')?conn.data:{};
+ const base=DB_URL+'/w/'+ws;
+ let online=true,inflight=false,again=false,timer=0,retry=0,stLast='',dirtyTabs=false;
+ const setStatus=k=>{if(k===stLast)return;stLast=k;stEl.textContent={live:'🟢 Live',save:'🟡 Saving…',off:'🔴 Offline — retrying'}[k]};
+ const seg=p=>String(p).split('/').filter(Boolean);
+ const getIn=(p)=>{let o=M;for(const k of p){if(o==null||typeof o!=='object')return undefined;o=o[k]}return o};
+ const setIn=(p,v)=>{
+  if(!p.length){M=(v&&typeof v==='object')?v:{};return}
+  let o=M;
+  for(let i=0;i<p.length-1;i++){const k=p[i];if(o[k]==null||typeof o[k]!=='object'){if(v==null)return;o[k]={}}o=o[k]}
+  const last=p[p.length-1];if(v==null)delete o[last];else o[last]=v;
+  };  /* empty containers are left in place on purpose: checking emptiness is O(n) on big maps */
+ const MAPS=['d','t','r','c'];
+ const sheetById=id=>sheets.find(x=>x.id===id);
+
+ /* ---- cloud -> app ---- */
+ function applyKey(id,m,key,v){
+  const sh=sheetById(id);if(!sh)return;const k=+key.slice(1);
+  if(m==='d')setRaw(sh,k,v==null?'':String(v));
+  else if(m==='t'){if(v==null)setSt(sh,k,null);else try{setSt(sh,k,JSON.parse(v))}catch(e){}}
+  else if(m==='r'){if(v==null)sh.rm.delete(k);else sh.rm.set(k,+v)}
+  else if(m==='c'){if(v==null)sh.cm.delete(k);else sh.cm.set(k,+v)}}
+ function diffMap(id,m,o,n){o=o||{};n=n||{};
+  for(const k in n)if(o[k]!==n[k])applyKey(id,m,k,n[k]);
+  for(const k in o)if(!(k in n))applyKey(id,m,k,null)}
+ function reconSheet(id,o,n){
+  if(!n){const i=sheets.findIndex(x=>x.id===id);if(i>=0){sheets.splice(i,1);dirtyTabs=true}return}
+  const sh=sheetById(id);
+  if(!sh){sheets.push(buildSheet(id,n));dirtyTabs=true;return}
+  if(n.n!=null&&(!o||o.n!==n.n)&&sh.n!==n.n){sh.n=n.n;dirtyTabs=true}
+  for(const m of MAPS)diffMap(id,m,o&&o[m],n[m])}
+ function reconAll(o,n){const os=(o&&o.s)||{},nw=(n&&n.s)||{};
+  for(const id in nw)reconSheet(id,os[id],nw[id]);
+  for(const id in os)if(!(id in nw))reconSheet(id,os[id],null)}
+ function onPut(path,data){
+  const old=getIn(path);setIn(path,data);const n=getIn(path);const[a,b,c,d]=path;
+  if(a==='s'&&path.length>=2&&M.s&&M.s[b]&&!sheetById(b)){sheets.push(buildSheet(b,M.s[b]));dirtyTabs=true;return}
+  if(!path.length)reconAll(old,n&&{s:n.s});
+  else if(a==='meta')dirtyTabs=true;
+  else if(a==='s'){
+   if(path.length===1)reconAll({s:old},{s:n});
+   else if(path.length===2)reconSheet(b,old,n);
+   else if(path.length===3){
+    if(c==='n'){const sh=sheetById(b);if(sh&&n!=null&&old!==n&&sh.n!==n){sh.n=n;dirtyTabs=true}}
+    else if(MAPS.includes(c))diffMap(b,c,old,n)}
+   else if(path.length===4&&MAPS.includes(c)&&old!==n)applyKey(b,c,d,n)}}
+ function finish(){
+  const ord=((M.meta&&M.meta.order)||'').split(',').filter(Boolean);
+  const pos=id=>{const i=ord.indexOf(id);return i<0?1e9:i};
+  const before=sheets.map(x=>x.id).join();sheets.sort((x,y)=>pos(x.id)-pos(y.id));
+  if(before!==sheets.map(x=>x.id).join())dirtyTabs=true;
+  if(!sheets.length){sheets.push(ns());dirtyTabs=true}
+  if(!sheets.includes(S)){S=sheets[0];A=[0,0];Z=[0,0];sx=0;sy=0;dirtyTabs=true}
+  if(dirtyTabs){tabs();dirtyTabs=false}
+  for(const t of sheets)t.cv.clear();
+  upd()}
+ function handle(type,m){
+  if(type==='open'){online=true;setStatus(inflight?'save':'live');touch();return}
+  if(type==='error'||type==='cancel'){online=false;setStatus('off');return}
+  if(!m)return;const bp=seg(m.path||'/');
+  if(type==='put')onPut(bp,m.data);
+  else if(type==='patch'&&m.data&&typeof m.data==='object')for(const k in m.data)onPut(bp.concat(seg(k)),m.data[k]);
+  finish()}
+
+ /* ---- app -> cloud ---- */
+ const sstr=o=>JSON.stringify(o,Object.keys(o).sort());
+ function computeOps(){
+  const groups=[],deletes=[],ms=M.s||{},ids=new Set(sheets.map(x=>x.id));
+  for(const sh of sheets){
+   const m=ms[sh.id]||{};
+   if(m.n!==sh.n)groups.push(['s/'+sh.id,{n:sh.n}]);
+   const cmp=(name,entries,conv)=>{const cur=m[name]||{},b={};let any=false;const seen=new Set();
+    for(const[k,v]of entries){const ck='k'+k,nv=conv(v);if(nv===undefined)continue;seen.add(ck);if(cur[ck]!==nv){b[ck]=nv;any=true}}
+    for(const ck in cur)if(!seen.has(ck)){b[ck]=null;any=true}
+    if(any)groups.push(['s/'+sh.id+'/'+name,b])};
+   cmp('d',sh.d,v=>v);
+   cmp('t',sh.st,o=>o&&Object.keys(o).length?sstr(o):undefined);
+   cmp('r',sh.rm,h=>h);
+   cmp('c',sh.cm,w=>w)}
+  for(const id in ms)if(!ids.has(id))deletes.push(id);
+  const lo=sheets.map(x=>x.id).join(',');
+  if((M.meta&&M.meta.order)!==lo)groups.push(['meta',{order:lo}]);
+  return{groups,deletes}}
+ async function send(method,path,body){
+  const r=await fetch(base+'/'+path+'.json?print=silent',{method,body:body===undefined?undefined:JSON.stringify(body)});
+  if(!r.ok)throw new Error('HTTP '+r.status)}
+ function applyToM(path,part){
+  const pp=seg(path),prev=[];
+  for(const k in part){const p=pp.concat(k);prev.push([p,getIn(p)]);setIn(p,part[k])}
+  return()=>{for(let i=prev.length-1;i>=0;i--)setIn(prev[i][0],prev[i][1])}}
+ async function flush(){
+  timer=0;
+  if(inflight){again=true;return}
+  const{groups,deletes}=computeOps();
+  if(!groups.length&&!deletes.length){setStatus(online?'live':'off');return}
+  inflight=true;setStatus('save');
+  try{
+   for(const[path,body]of groups){
+    const keys=Object.keys(body);
+    for(let i=0;i<keys.length;i+=3000){
+     const part={};for(const k of keys.slice(i,i+3000))part[k]=body[k];
+     const undo=applyToM(path,part);
+     try{await send('PATCH',path,part)}catch(e){undo();throw e}}}
+   for(const id of deletes){const prev=M.s&&M.s[id];setIn(['s',id],null);
+    try{await send('DELETE','s/'+id)}catch(e){setIn(['s',id],prev);throw e}}
+   retry=0;online=true}
+  catch(e){inflight=false;retry=Math.min(retry+1,6);setStatus('off');clearTimeout(timer);timer=setTimeout(flush,1500*retry);return}
+  inflight=false;
+  if(again){again=false;touch()}else{setStatus('save');timer=setTimeout(flush,50)}}
+ function touch(){clearTimeout(timer);timer=setTimeout(flush,350)}
+
+ window.__sync={touch};
+ window.addEventListener('online',touch);
+ conn.attach(handle);
+ setStatus('live');touch()}
+})();
+
+</script>
+</body></html>

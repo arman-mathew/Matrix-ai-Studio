@@ -739,4 +739,5 @@ export function App() {
   );
 }
 
+console.log("Token value:", sessionStorage.getItem("excel_auth_token"));
 export default App;
